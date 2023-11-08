@@ -10,7 +10,7 @@ func main() {
 
 	r := gin.Default()
 
-	r.GET("/users", func(c *gin.Context) {
+	r.GET("/api/v1/users", func(c *gin.Context) {
 		users, err := GetAllUsers()
 		if err != nil {
 			c.JSON(500, gin.H{"error": err.Error()})
@@ -19,7 +19,7 @@ func main() {
 		c.JSON(200, users)
 	})
 
-	r.GET("/users/:id", func(c *gin.Context) {
+	r.GET("/api/v1/users/:id", func(c *gin.Context) {
 
 		idStr := c.Param("id")
 		idInt, err := strconv.Atoi(idStr)
@@ -35,7 +35,7 @@ func main() {
 		c.JSON(200, user)
 	})
 
-	r.POST("/users", func(c *gin.Context) {
+	r.POST("/api/v1/users", func(c *gin.Context) {
 		var user User
 		if err := c.ShouldBindJSON(&user); err != nil {
 			c.JSON(400, gin.H{"error": err.Error()})
@@ -48,19 +48,7 @@ func main() {
 		c.JSON(200, user)
 	})
 
-	//r.PUT("/users/:id", func(c *gin.Context) {
-	//	var user User
-	//	if err := c.ShouldBindJSON(&user); err != nil {
-	//		c.JSON(400, gin.H{"error": err.Error()})
-	//		return
-	//	}
-	//	if err := UpdateUser(&user); err != nil {
-	//		c.JSON(500, gin.H{"error": err.Error()})
-	//		return
-	//	}
-	//	c.JSON(200, user)
-	//})
-	r.PUT("/users/:id", func(c *gin.Context) {
+	r.PUT("/api/v1/users/:id", func(c *gin.Context) {
 		// URL orqali foydalanuvchi identifikatorini olish
 		userID := c.Param("id")
 
@@ -98,7 +86,7 @@ func main() {
 		c.JSON(200, existingUser)
 	})
 
-	r.DELETE("/users/:id", func(c *gin.Context) {
+	r.DELETE("/api/v1/users/:id", func(c *gin.Context) {
 
 		idStr := c.Param("id")
 		idInt, err := strconv.Atoi(idStr)
@@ -114,6 +102,6 @@ func main() {
 		c.JSON(200, gin.H{"message": "User deleted successfully"})
 	})
 
-	r.Run(":8080")
+	r.Run()
 
 }
